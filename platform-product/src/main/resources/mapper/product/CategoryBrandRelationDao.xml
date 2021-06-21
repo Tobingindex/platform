@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="top.tobing.platform.product.dao.CategoryBrandRelationDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="top.tobing.platform.product.entity.CategoryBrandRelationEntity" id="categoryBrandRelationMap">
+        <result property="id" column="id"/>
+        <result property="brandId" column="brand_id"/>
+        <result property="catelogId" column="catelog_id"/>
+        <result property="brandName" column="brand_name"/>
+        <result property="catelogName" column="catelog_name"/>
+    </resultMap>
+
+    <update id="updateByrandNameByBrandId">
+        UPDATE pms_category_brand_relation SET brand_name = #{name} WHERE brand_id = #{brandId}
+    </update>
+    <update id="updateCategoryNameByCategoryId">
+        UPDATE pms_category_brand_relation SET catelog_name = #{name} WHERE catelog_id = #{catId}
+    </update>
+
+
+</mapper>

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Platform 账号注册</title>
+    <script src="/static/register/libs/jquery-1.12.4.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/static/register/js/jQuery/jquery-3.1.1.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/register/bootStrap/bootstrap/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/register/sass/index.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/register/css/index.css">
+</head>
+
+<body>
+<!--注册页头部-->
+<header>
+    <a href="http://platform.com"
+       class="logo"><img src="/static/register/img/logo1.jpg" alt=""></a>
+    <div class="desc">欢迎注册</div>
+    <div class="dfg">
+        <span>已有账号？</span>
+        <a href="http://auth.platform.com/login.html">请登录</a>
+    </div>
+</header>
+<section>
+    <form action="/register" method="post" class="one">
+        <div style="color:red"
+             th:text="${errorMap!=null? ((#maps.containsKey(errorMap,'msg') )?errorMap.msg : ''):''}"></div>
+        <div class="register-box">
+            <label class="username_label">用 户 名
+                <input name="username" maxlength="20" type="text" placeholder="您的用户名和登录名">
+            </label>
+            <div class="tips" style="color: red"
+                 th:text="${errorMap!=null? ((#maps.containsKey(errorMap,'username') )?errorMap.username : ''):''}">
+            </div>
+        </div>
+        <div class="register-box">
+            <label class="other_label">设 置 密 码
+                <input name="password" maxlength="20" type="password" placeholder="建议至少使用两种字符组合">
+            </label>
+            <div class="tips" style="color: red"
+                 th:text="${errorMap!=null? (#maps.containsKey(errorMap,'password') ?errorMap.password: ''):''}">
+            </div>
+        </div>
+        <div class="register-box">
+            <label class="other_label">确 认 密 码
+                <input maxlength="20" type="password" placeholder="请再次输入密码">
+            </label>
+            <div class="tips">
+
+            </div>
+        </div>
+        <div class="register-box">
+            <label class="other_label">
+                <span>手 机 号 码</span>
+                <input name="phone" class="phone" id="phoneNum" maxlength="20" type="text" placeholder="建议使用常用手机">
+            </label>
+            <span id="sendCode">发送验证码</span>
+            <div class="tips" style="color: red"
+                 th:text="${errorMap!=null? (#maps.containsKey(errorMap,'phone') ?errorMap.phone: ''):''}">
+            </div>
+        </div>
+        <div class="register-box">
+            <label class="other_label">验 证 码
+                <input name="code" maxlength="20" type="text" placeholder="请输入验证码" class="caa">
+            </label>
+        </div>
+        <div class="arguement">
+            <div align="center" class="tips" style="color: red"
+                 th:text="${errorMap!=null? (#maps.containsKey(errorMap,'code') ?errorMap.code: ''):''}">
+
+            </div>
+            <br/>
+            <div class="submit_btn">
+                <button type="submit" id="submit_btn">立 即 注 册</button>
+            </div>
+        </div>
+    </form>
+</section>
+<br/><br/>
+<hr>
+<div class="footer">
+    <ul>
+        <li>
+            <a href="https://gitee.com/tobing">关于我们</a>
+        </li>
+        <li>|</li>
+        <li>
+            <a href="https://gitee.com/tobing">联系我们</a>
+        </li>
+        <li>|</li>
+        <li>
+            <a href="https://gitee.com/tobing">友情链接</a>
+        </li>
+    </ul>
+</div>
+<p class="bq">Copyright©2021-2021 platform 版权所有</p>
+<br/><br/>
+<script type="text/javascript" charset="utf-8">
+    // 前端登录校验
+    $(function () {
+        //聚焦失焦input
+        $('input').eq(0).focus(function () {
+            if ($(this).val().length == 0) {
+                $(this).parent().next("div").text("支持中文，字母，数字，'-'，'_'的多种组合");
+            }
+        })
+        $('input').eq(1).focus(function () {
+            if ($(this).val().length == 0) {
+                $(this).parent().next("div").text("建议使用字母、数字和符号两种以上的组合，6-20个字符");
+            }
+        })
+        $('input').eq(2).focus(function () {
+            if ($(this).val().length == 0) {
+                $(this).parent().next("div").text("请再次输入密码");
+            }
+        })
+        $('input').eq(3).focus(function () {
+            if ($(this).val().length == 0) {
+                $(this).parent().next("div").text("验证完后，你可以使用该手机登陆和找回密码");
+            }
+        })
+        $('input').eq(4).focus(function () {
+            if ($(this).val().length == 0) {
+                $(this).parent().next().next("div").text("看不清？点击图片更换验证码");
+            }
+        })
+        //用户名：
+        $('input').eq(0).blur(function () {
+            if ($(this).val().length == 0) {
+                $(this).parent().next("div").text("");
+                $(this).parent().next("div").css("color", '#ccc');
+            } else if ($(this).val().length > 0 && $(this).val().length < 4) {
+                $(this).parent().next("div").text("长度只能在4-20个字符之间");
+                $(this).parent().next("div").css("color", 'red');
+            } else if ($(this).val().length >= 4 && !isNaN($(this).val())) {
+                $(this).parent().next("div").text("用户名不能为纯数字");
+                $(this).parent().next("div").css("color", 'red');
+            } else {
+                for (var m = 0; m < stuList.length; m++) {
+                    if ($(this).val() == stuList[m].name) {
+                        $(this).parent().next("div").text("该用户名已被注册");
+                        $(this).parent().next("div").css("color", 'red');
+                        return;
+                    }
+                }
+                $(this).parent().next("div").text("");
+            }
+        })
+        //密码
+        $('input').eq(1).blur(function () {
+            if ($(this).val().length == 0) {
+                $(this).parent().next("div").text("");
+                $(this).parent().next("div").css("color", '#ccc');
+            } else if ($(this).val().length > 0 && $(this).val().length < 6) {
+                $(this).parent().next("div").text("长度只能在6-20个字符之间");
+                $(this).parent().next("div").css("color", 'red');
+            } else {
+                $(this).parent().next("div").text("");
+            }
+        })
+        //	确认密码
+        $('input').eq(2).blur(function () {
+            if ($(this).val().length == 0) {
+                $(this).parent().next("div").text("");
+                $(this).parent().next("div").css("color", '#ccc');
+            } else if ($(this).val() != $('input').eq(1).val()) {
+                $(this).parent().next("div").text("两次密码不匹配");
+                $(this).parent().next("div").css("color", 'red');
+            } else {
+                $(this).parent().next("div").text("");
+            }
+        })
+        //	手机号
+        $('input').eq(3).blur(function () {
+            if ($(this).val().length == 0) {
+                $(this).parent().next("div").text("");
+                $(this).parent().next("div").css("color", '#ccc');
+            } else if ($(this).val().substr(0, 3) != 138 && $(this).val().substr(0, 3) != 189 && $(this).val().substr(0, 3) != 139 && $(this).val().substr(0, 3) != 158 && $(this).val().substr(0, 3) != 188 && $(this).val().substr(0, 3) != 157 || $(this).val().length != 11) {
+                $(this).parent().next("div").text("手机号格式不正确");
+                $(this).parent().next("div").css("color", 'red');
+            } else {
+                $(this).parent().next("div").text("");
+            }
+        })
+        $("#submit_btn").click(function (e) {
+            for (var j = 0; j < 5; j++) {
+                if ($('input').eq(j).val().length == 0) {
+                    $('input').eq(j).focus();
+                    if (j == 4) {
+                        $('input').eq(j).parent().next().next("div").text("此处不能为空");
+                        $('input').eq(j).parent().next().next("div").css("color", 'red');
+                        e.preventDefault();
+                        return;
+                    }
+                    $('input').eq(j).parent().next(".tips").text("此处不能为空");
+                    $('input').eq(j).parent().next(".tips").css("color", 'red');
+                    e.preventDefault();
+                    return;
+                }
+            }
+
+
+            //  建立构造函数，构造学生信息模板
+            function Student(name, password, tel, id) {
+                this.name = name;
+                this.password = password;
+                this.tel = tel;
+                this.id = id;
+            }
+
+            //	获取之前所有已经注册的用户集合
+            function getStuList() {
+                var list = localStorage.getItem('stuList');
+                if (list != null) {
+                    return JSON.parse(list);
+                } else {
+                    return new Array();
+                }
+            }
+
+        })
+    });
+    // 发送验证码
+    $(function () {
+        $("#sendCode").click(function () {
+            if ($(this).hasClass("disabled")) {
+                // 倒计时中，不再重新计时
+            } else {
+                // 给指定手机发送验证码
+                $.get("/sms/sendCode?phone=" + $("#phoneNum").val());
+                timeoutChangStyle();
+            }
+        });
+    })
+
+    var num = 10;
+
+    // 倒计时，在倒计时时间内不允许被点击
+    function timeoutChangStyle() {
+        $("#sendCode").attr("class", "disabled");
+        if (num == 0) {
+            $("#sendCode").attr("class", "");
+            $("#sendCode").text("发送验证码");
+            num = 10;
+        } else {
+            var str = num + "s 后再次发送";
+            $("#sendCode").text(str);
+            setTimeout("timeoutChangStyle()", 1000);
+            num--;
+        }
+    }
+
+
+</script>
+</body>
+
+</html>

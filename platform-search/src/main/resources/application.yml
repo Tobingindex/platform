@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: platform-search
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+  thymeleaf:
+    cache: false
+  session:
+    store-type: redis
+  port: 7678
+  main:
+    allow-bean-definition-overriding: true
+server:
+  port: 15000

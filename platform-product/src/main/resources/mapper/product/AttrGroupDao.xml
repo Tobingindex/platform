@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="top.tobing.platform.product.dao.AttrGroupDao">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="top.tobing.platform.product.entity.AttrGroupEntity" id="attrGroupMap">
+        <result property="attrGroupId" column="attr_group_id"/>
+        <result property="attrGroupName" column="attr_group_name"/>
+        <result property="sort" column="sort"/>
+        <result property="descript" column="descript"/>
+        <result property="icon" column="icon"/>
+        <result property="catelogId" column="catelog_id"/>
+    </resultMap>
+    <!--根据分类id、spuId查询对应下的属性组以及属性值-->
+    <resultMap id="spuItemAttrGroupVo" type="top.tobing.platform.product.vo.SpuItemAttrGroupVo">
+        <result property="groupName" column="group_name"/>
+        <collection property="attrs" ofType="top.tobing.platform.product.vo.SpuBaseAttrVo">
+            <result property="attrName" column="attr_name"/>
+            <result property="attrValue" column="attr_value"/>
+        </collection>
+    </resultMap>
+    <select id="getAttrGroupWithAttrByCatalogIdAndSpuId" resultMap="spuItemAttrGroupVo">
+    SELECT
+        pag.attr_group_name AS group_name,
+        paar.attr_id,
+        pa.attr_name AS attr_name,
+        ppav.attr_value AS attr_value
+    FROM `pms_attr_group` AS pag
+    LEFT JOIN `pms_attr_attrgroup_relation` AS paar ON pag.attr_group_id=paar.attr_group_id
+    LEFT JOIN `pms_attr` AS pa ON pa.attr_id=paar.attr_id
+    LEFT JOIN `pms_product_attr_value` AS ppav ON ppav.attr_id=pa.attr_id
+    WHERE pag.catelog_id=#{catalogId} AND ppav.spu_id=#{spuId};
+    </select>
+
+
+</mapper>
