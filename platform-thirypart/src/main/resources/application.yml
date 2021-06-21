@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: platform-thirypart
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+    alicloud:
+      secret-key: xxx
+      access-key: xxx
+      oss:
+        bucket: tobing-platform
+        endpoint: oss-cn-shenzhen.aliyuncs.com
+      sms:
+        endpoint: dysmsapi.aliyuncs.com
+        signName:
+        templateCode:
+
+server:
+  port: 14000
