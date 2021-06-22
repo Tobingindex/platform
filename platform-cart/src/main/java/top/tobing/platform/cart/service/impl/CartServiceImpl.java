@@ -1,10 +1,13 @@
 package top.tobing.platform.cart.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.BoundHashOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import top.tobing.common.api.BziCodeEnum;
+import top.tobing.common.api.Result;
 import top.tobing.platform.cart.feign.ProductFeignService;
 import top.tobing.platform.cart.interceptor.CartInterceptor;
 import top.tobing.platform.cart.service.CartService;
@@ -185,8 +188,12 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public List<CartItem> listOwnCheckItem() {
+    public Result<List<CartItem>> listOwnCheckItem() {
         UserInfoTo userInfoTo = CartInterceptor.threadLocal.get();
+        if (userInfoTo.getUserId() == null) {
+            // 缺少用户信息
+            return Result.error(BziCodeEnum.CART_UNAUTH_USER.getCode(), BziCodeEnum.CART_UNAUTH_USER.getMsg());
+        }
         List<CartItem> cartItemList = getCartItemList(CART_PREFIX + userInfoTo.getUserId());
         if (cartItemList != null) {
             List<CartItem> collect = cartItemList.stream().filter(CartItem::getCheck).collect(Collectors.toList());
@@ -195,8 +202,8 @@ public class CartServiceImpl implements CartService {
                 BigDecimal bigDecimal = productFeignService.priceBySkuId(cartItem.getSkuId());
                 cartItem.setPrice(bigDecimal);
             }
-            return collect;
+            return Result.ok(collect);
         }
-        return null;
+        return Result.ok(null);
     }
 }

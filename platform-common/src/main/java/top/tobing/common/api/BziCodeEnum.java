@@ -39,7 +39,10 @@ public enum BziCodeEnum {
 
     // 第三方服务 507XX
     THIRD_PART_ERROR(500700, "第三方服务调用异常!"),
-    THIRD_PART_SEND_SMS_ERROR(500701, "第三方服务验证码发送错误！");
+    THIRD_PART_SEND_SMS_ERROR(500701, "第三方服务验证码发送错误！"),
+
+    // 购物车服务 5009XX
+    CART_UNAUTH_USER(500901, "未认证用户访问！");
 
 
     private Integer code;

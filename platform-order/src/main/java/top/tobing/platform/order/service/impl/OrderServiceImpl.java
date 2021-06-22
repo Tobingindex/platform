@@ -22,6 +22,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
+import top.tobing.common.api.BziCodeEnum;
+import top.tobing.common.api.Result;
 import top.tobing.common.constant.LuaScript;
 import top.tobing.common.constant.PlatformOrderConstant;
 import top.tobing.common.to.MemberRespVo;
@@ -88,14 +90,15 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
     @Override
     public OrderConfirmVo toTrade() throws ExecutionException, InterruptedException {
         OrderConfirmVo confirmVo = new OrderConfirmVo();
-        MemberRespVo memberRespVo = LoginUserInterceptor.threadLocal.get();
+        MemberRespVo memberRespVo = UserContextHolder.getCurrentUser();
+        // MemberRespVo memberRespVo = LoginUserInterceptor.threadLocal.get();
         // 注意将本次请求的上下文对象，设置给每个异步编排中的线程，因为RequestContextHolder内部通过ThreadLocal来保存数据
         // 异步化如果不进行处理那么在Feign的拦截器将拿不到数据
-        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
 
         CompletableFuture<Void> getAddress = CompletableFuture.runAsync(() -> {
             // 注意异步编排无法使用ThreadLocal中的变量，可以将信息取出来放到
-            RequestContextHolder.setRequestAttributes(requestAttributes);
+             RequestContextHolder.setRequestAttributes(requestAttributes);
             // 1、查询所有的收货地址【用户服务】
             List<MemberAddressVo> address = memberFeignService.addressList(memberRespVo.getId());
             confirmVo.setAddressList(address);
@@ -103,13 +106,16 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
 
         CompletableFuture<Void> getItems = CompletableFuture.supplyAsync(() -> {
             // 注意异步编排无法使用ThreadLocal中的变量，可以将信息取出来放到
-            RequestContextHolder.setRequestAttributes(requestAttributes);
-            // 2、查询购物车选中的商品【购物车访问】
-            List<OrderItemVo> items = cartFeignService.listOwnCheckItem();
-            confirmVo.setItemVoList(items);
-            return items;
+             RequestContextHolder.setRequestAttributes(requestAttributes);
+            // 2、查询购物车选中的商品【购物车服务】
+            Result<List<OrderItemVo>> cartResult = cartFeignService.listOwnCheckItem();
+            if (BziCodeEnum.SUCCESS.getCode() != cartResult.getCode()) {
+                throw new RuntimeException("远程查询数据出错！");
+            }
+            confirmVo.setItemVoList(cartResult.getData());
+            return cartResult.getData();
         }, poolExecutor).thenAcceptAsync((items) -> {
-            // 3、查询远程是否存在库存
+            // 3、查询远程是否存在库存【库存服务】
             List<Long> skuIds = items.stream().map(OrderItemVo::getSkuId).collect(Collectors.toList());
             List<SkuStockSearchVo> stockStatus = wareFeignService.batchSkuStock(skuIds);
             if (stockStatus != null) {
@@ -123,7 +129,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         Integer integration = memberRespVo.getIntegration();
         confirmVo.setIntegration(integration);
 
-        // 5、生成防重令牌，分别保存在Redis与返回页面，这样就可以在页面提交的时候直接校验
+        // 5、生成防重令牌，分别保存在Redis与返回页面，这样就可以在页面提交的时候直接校验（保证接口幂等性）
         String orderToken = UUID.randomUUID().toString().replace("-", "");
         confirmVo.setOrderToken(orderToken);
         redisTemplate.opsForValue().set(PlatformOrderConstant.USER_ORDER_TOKEN_PREFIX + memberRespVo.getId(), orderToken);
@@ -353,7 +359,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
     // 构造订单项信息
     private List<OrderItemEntity> buildOrderItems(String orderSn) {
         // 从购物车获取选中的购物项
-        List<OrderItemVo> orderItemVoList = cartFeignService.listOwnCheckItem();
+        Result< List<OrderItemVo>> cartResult = cartFeignService.listOwnCheckItem();
+        List<OrderItemVo> orderItemVoList = cartResult.getData();
         if (orderItemVoList != null && !orderItemVoList.isEmpty()) {
             List<OrderItemEntity> collect = orderItemVoList.stream().map(item -> {
                 OrderItemEntity itemEntity = toOrderItem(item);

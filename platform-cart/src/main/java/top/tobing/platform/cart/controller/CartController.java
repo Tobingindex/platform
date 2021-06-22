@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import top.tobing.common.api.Result;
 import top.tobing.platform.cart.interceptor.CartInterceptor;
 import top.tobing.platform.cart.service.CartService;
 import top.tobing.platform.cart.vo.Cart;
@@ -94,7 +95,7 @@ public class CartController {
     // 查询登录用户选中的购物项【远程调用】
     @ResponseBody
     @GetMapping("listOwnCheckItem")
-    public List<CartItem> listOwnCheckItem() {
+    public Result<List<CartItem>> listOwnCheckItem() {
         return cartService.listOwnCheckItem();
     }
 

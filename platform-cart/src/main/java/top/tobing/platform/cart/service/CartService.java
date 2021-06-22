@@ -1,5 +1,6 @@
 package top.tobing.platform.cart.service;
 
+import top.tobing.common.api.Result;
 import top.tobing.platform.cart.vo.Cart;
 import top.tobing.platform.cart.vo.CartItem;
 
@@ -52,6 +53,7 @@ public interface CartService {
     /**
      * 查询登录用户选中购物车项
      * 用户通过ThreadLocal获取
+     * @return
      */
-    List<CartItem> listOwnCheckItem();
+    Result<List<CartItem>> listOwnCheckItem();
 }
