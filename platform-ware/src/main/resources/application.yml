@@ -1,6 +1,6 @@
 # 端口
 server:
-  port: 21010
+  port: 20004
 # 应用名称
 spring:
   application:
