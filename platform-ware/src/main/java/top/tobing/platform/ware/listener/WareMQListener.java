@@ -7,7 +7,6 @@ import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
 import top.tobing.common.to.OrderTo;
 import top.tobing.common.to.mq.WareTaskTo;
 import top.tobing.platform.ware.entity.WareOrderTaskDetailEntity;

@@ -3,37 +3,27 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.8.RELEASE</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <artifactId>platform</artifactId>
+        <groupId>top.tobing</groupId>
+        <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <groupId>top.tobing</groupId>
     <artifactId>platform-thirypart</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>platform-thirypart</name>
-    <description>平台-第三方服务</description>
-    <properties>
-        <java.version>1.8</java.version>
-        <spring-cloud.version>Hoxton.RELEASE</spring-cloud.version>
-    </properties>
     <dependencies>
         <!--platform-common-->
-        <!--排除Mybatis-Plus-->
         <dependency>
             <groupId>top.tobing</groupId>
             <artifactId>platform-common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.baomidou</groupId>
-                    <artifactId>mybatis-plus-boot-starter</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.alibaba.cloud</groupId>
-                    <artifactId>spring-cloud-alibaba-seata</artifactId>
-                </exclusion>
-            </exclusions>
+        </dependency>
+        <!--spring cloud alibaba sentinel-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+        </dependency>
+        <!--spring cloud alicloud oss-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>aliyun-oss-spring-boot-starter</artifactId>
         </dependency>
         <!--腾讯云短信API-->
         <dependency>
@@ -47,50 +37,20 @@
             <artifactId>dysmsapi20170525</artifactId>
             <version>2.0.1</version>
         </dependency>
+        <!--web-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+        <!--openfeign-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
-        <!--actuator-->
+        <!--openfeign-ribbon-->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.junit.vintage</groupId>
-                    <artifactId>junit-vintage-engine</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
         </dependency>
     </dependencies>
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring-cloud.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
-
 </project>

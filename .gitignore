@@ -1,68 +1,65 @@
-### gradle ###
-.gradle
-/build/
-!gradle/wrapper/gradle-wrapper.jar
+# maven ignore
+**/target/
+*.versionsBackup
+.factorypath
+.flattened-pom.xml
 
-### STS ###
+# eclipse ignore
 .settings/
+.project
+.classpath
+*rebel.xml
+
+# STS
 .apt_generated
 .classpath
 .factorypath
 .project
 .settings
 .springBeans
-bin/
+.sts4-cache
 
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
+# idea ignore
 *.ipr
-rebel.xml
+*.iml
+*.iws
+mvwn.*
 
-### NetBeans ###
-nbproject/private/
-build/
-nbbuild/
-dist/
-nbdist/
-.nb-gradle/
-
-### maven ###
-target/
-*.war
-*.ear
-*.zip
-*.tar
-*.tar.gz
-**/mvnw
-**/mvnw.cmd
-**/.mvn
-
-### logs ####
-/logs/
+# temp ignore
 *.log
-
-### temp ignore ###
 *.cache
 *.diff
 *.patch
 *.tmp
-*.java~
-*.properties~
-*.xml~
+.idea/
+.idea
 
-### system ignore ###
+# Package Files #
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# system ignore
 .DS_Store
 Thumbs.db
-Servers
-.metadata
-upload
-gen_code
 
-### database ###
+.vscode
 
-db/db_back_dir/
+# dev properties
+*/src/main/resources/bootstrap-default.yml
+*/src/main/resources/application-default.yml
+*/src/main/resources/application-uat.yml
+*/src/main/resources/application-sit.yml
+*/src/main/resources/application-prod.yml
+*/src/main/resources/application-remote.yml
+*/src/main/resources/application.properties.yml
+**/api/controller/v0/
 
-### redis ###
-/redis/
+init-local-database-dev.sh
+
+# grovovy脚本文件
+*.groovy
+

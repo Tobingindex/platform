@@ -15,4 +15,28 @@ public class Attrs {
     private String attrName;
     // 属性值；不减少、不聚合
     private String attrValue;
+
+    public Long getAttrId() {
+        return attrId;
+    }
+
+    public void setAttrId(Long attrId) {
+        this.attrId = attrId;
+    }
+
+    public String getAttrName() {
+        return attrName;
+    }
+
+    public void setAttrName(String attrName) {
+        this.attrName = attrName;
+    }
+
+    public String getAttrValue() {
+        return attrValue;
+    }
+
+    public void setAttrValue(String attrValue) {
+        this.attrValue = attrValue;
+    }
 }

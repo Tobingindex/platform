@@ -1,6 +1,5 @@
 package top.tobing.platform.order;
 
-import io.seata.spring.boot.autoconfigure.SeataAutoConfiguration;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,7 +12,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableFeignClients
 @EnableConfigurationProperties
 @EnableDiscoveryClient
-@SpringBootApplication(exclude = SeataAutoConfiguration.class)
+@SpringBootApplication
 public class PlatformOrderApplication {
 
     public static void main(String[] args) {

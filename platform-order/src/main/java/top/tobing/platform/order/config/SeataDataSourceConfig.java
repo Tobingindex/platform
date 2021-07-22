@@ -1,7 +1,6 @@
 package top.tobing.platform.order.config;
 
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
-import io.seata.rm.datasource.DataSourceProxy;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.context.annotation.Bean;

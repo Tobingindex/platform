@@ -25,6 +25,7 @@ import java.util.Map;
 @RequestMapping("/thirypart/oss")
 public class OSSController {
 
+
     @Autowired
     private OSS ossClient;
 
