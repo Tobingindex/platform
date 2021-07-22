@@ -8,6 +8,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <artifactId>platform-ware</artifactId>
+    <description>优惠卷服务</description>
 
     <dependencies>
         <!--platform-common-->

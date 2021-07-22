@@ -23,8 +23,8 @@
         <module>platform-seckill</module>
         <module>platform-thirypart</module>
         <module>platform-ware</module>
-        <!--        <module>renren-fast</module>-->
-        <!--        <module>renren-generator</module>-->
+        <module>renren-fast</module>
+        <module>renren-generator</module>
     </modules>
 
 
@@ -50,6 +50,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <version>1.18.16</version>
         </dependency>
         <!--devtools-->
         <dependency>

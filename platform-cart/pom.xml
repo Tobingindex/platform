@@ -9,6 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>platform-cart</artifactId>
+    <description>购物车服务</description>
 
     <dependencies>
         <dependency>

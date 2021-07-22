@@ -8,6 +8,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <artifactId>platform-search</artifactId>
+    <description>搜索服务</description>
 
     <dependencies>
         <!--引入common-->

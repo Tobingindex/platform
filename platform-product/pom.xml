@@ -8,6 +8,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <artifactId>platform-product</artifactId>
+    <description>商品服务</description>
 
     <dependencies>
         <!--platform-common-->

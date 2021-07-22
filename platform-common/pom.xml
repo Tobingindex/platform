@@ -9,6 +9,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>platform-common</artifactId>
+    <description>通用服务</description>
+
 
     <dependencies>
         <!--nacos 注册中心-->
@@ -33,12 +35,12 @@
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
         </dependency>
-        <!--lombok 依赖-->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.12</version>
-        </dependency>
+<!--        &lt;!&ndash;lombok 依赖&ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>org.projectlombok</groupId>-->
+<!--            <artifactId>lombok</artifactId>-->
+<!--            <version>1.18.12</version>-->
+<!--        </dependency>-->
         <!--httpcore 依赖-->
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
